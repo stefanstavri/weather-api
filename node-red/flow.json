@@ -1,0 +1,587 @@
+[
+    {
+        "id": "56d209f1c8e66fc8",
+        "type": "tab",
+        "label": "WeatherAPP",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "71aebdeb8d47d48e",
+        "type": "file in",
+        "z": "56d209f1c8e66fc8",
+        "name": "Local JSON File",
+        "filename": "",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 300,
+        "y": 220,
+        "wires": [
+            [
+                "778684b35597331d"
+            ]
+        ]
+    },
+    {
+        "id": "fa5ef2137020c115",
+        "type": "inject",
+        "z": "56d209f1c8e66fc8",
+        "name": "START",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 270,
+        "y": 120,
+        "wires": [
+            [
+                "71aebdeb8d47d48e"
+            ]
+        ]
+    },
+    {
+        "id": "778684b35597331d",
+        "type": "json",
+        "z": "56d209f1c8e66fc8",
+        "name": "JSON Converter",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "2885b4cb6c7751bf",
+                "e47157c822958786",
+                "61dc4735f8297a25",
+                "2aaef2c8dd66a253",
+                "3d34d541ad5abd04",
+                "6fac3a039c13ea35",
+                "187742c38cf66421"
+            ]
+        ]
+    },
+    {
+        "id": "2885b4cb6c7751bf",
+        "type": "function",
+        "z": "56d209f1c8e66fc8",
+        "name": "MaxMin_Temp",
+        "func": "msg.payload = [{\n    \"series\": [\"max[°C]\", \"min[°C]\"],\n\"data\": [[msg.payload.daily.temperature_2m_max[0], msg.payload.daily.temperature_2m_max[1], msg.payload.daily.temperature_2m_max[2], msg.payload.daily.temperature_2m_max[3], msg.payload.daily.temperature_2m_max[4], msg.payload.daily.temperature_2m_max[5], msg.payload.daily.temperature_2m_max[6]], [msg.payload.daily.temperature_2m_min[0], msg.payload.daily.temperature_2m_min[1], msg.payload.daily.temperature_2m_min[2], msg.payload.daily.temperature_2m_min[3], msg.payload.daily.temperature_2m_min[4], msg.payload.daily.temperature_2m_min[5], msg.payload.daily.temperature_2m_min[6]]],\n    \"labels\": [msg.payload.daily.time[0].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[1].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[2].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[3].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[4].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[5].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[6].split(\"-\").reverse().join(\"-\")]\n}];\n\nreturn msg;\n\n\n\n\n\n//     \"data\": [[msg.payload.daily.temperature_2m_max[0], msg.payload.daily.temperature_2m_max[1], msg.payload.daily.temperature_2m_max[2], msg.payload.daily.temperature_2m_max[3], msg.payload.daily.temperature_2m_max[4], msg.payload.daily.temperature_2m_max[5], msg.payload.daily.temperature_2m_max[6]], [msg.payload.daily.temperature_2m_min[0], msg.payload.daily.temperature_2m_min[1], msg.payload.daily.temperature_2m_min[2], msg.payload.daily.temperature_2m_min[3], msg.payload.daily.temperature_2m_min[4], msg.payload.daily.temperature_2m_min[5], msg.payload.daily.temperature_2m_min[6]]],",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 200,
+        "wires": [
+            [
+                "3310d262b76a0e98"
+            ]
+        ]
+    },
+    {
+        "id": "3310d262b76a0e98",
+        "type": "ui_chart",
+        "z": "56d209f1c8e66fc8",
+        "name": "Grafic Temperatura Maximă",
+        "group": "035001b51008c1b0",
+        "order": 2,
+        "width": 16,
+        "height": 6,
+        "label": "Temperatura maximă / minimă",
+        "chartType": "bar",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-10",
+        "ymax": "30",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#f66151",
+            "#99c1f1",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#e01b24",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 960,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e47157c822958786",
+        "type": "function",
+        "z": "56d209f1c8e66fc8",
+        "d": true,
+        "name": "Min_Temp",
+        "func": "msg.payload = [{\n    \"series\": [\"Temp[°C]\"] ,\n    \"data\": [ [msg.payload.daily.temperature_2m_min[0], msg.payload.daily.temperature_2m_min[1], msg.payload.daily.temperature_2m_min[2], msg.payload.daily.temperature_2m_min[3], msg.payload.daily.temperature_2m_min[4], msg.payload.daily.temperature_2m_min[5], msg.payload.daily.temperature_2m_min[6]]],\n    \"labels\": [msg.payload.daily.time[0].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[1].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[2].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[3].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[4].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[5].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[6].split(\"-\").reverse().join(\"-\")]\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 240,
+        "wires": [
+            [
+                "92da65f8d9c91f49"
+            ]
+        ]
+    },
+    {
+        "id": "2aaef2c8dd66a253",
+        "type": "function",
+        "z": "56d209f1c8e66fc8",
+        "name": "Precipitation _Max_Probability",
+        "func": "msg.payload = [{\n    \"series\": [\"Probabilitate[%]\" ],\n    \"data\": [ [msg.payload.daily.precipitation_probability_max[0],msg.payload.daily.precipitation_probability_max[1],msg.payload.daily.precipitation_probability_max[2],msg.payload.daily.precipitation_probability_max[3],msg.payload.daily.precipitation_probability_max[4],msg.payload.daily.precipitation_probability_max[5],msg.payload.daily.precipitation_probability_max[6]] ],\n    \"labels\": [ msg.payload.daily.time[0].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[1].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[2].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[3].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[4].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[5].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[6].split(\"-\").reverse().join(\"-\") ]\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 280,
+        "wires": [
+            [
+                "ea9c2fd17faf7b11"
+            ]
+        ]
+    },
+    {
+        "id": "92da65f8d9c91f49",
+        "type": "ui_chart",
+        "z": "56d209f1c8e66fc8",
+        "d": true,
+        "name": "",
+        "group": "",
+        "order": 5,
+        "width": 8,
+        "height": 1,
+        "label": "Grafic Temperatura Minimă",
+        "chartType": "bar",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-10",
+        "ymax": "30",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 960,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ea9c2fd17faf7b11",
+        "type": "ui_chart",
+        "z": "56d209f1c8e66fc8",
+        "name": "Grafic Probabilitatea Maximă de Precipitații",
+        "group": "35ecca7f77ad6298",
+        "order": 2,
+        "width": 16,
+        "height": 6,
+        "label": "Probabilitatea Maximă de Precipitații",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#99c1f1",
+            "#99c1f1",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1010,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "61dc4735f8297a25",
+        "type": "debug",
+        "z": "56d209f1c8e66fc8",
+        "name": "Debug ALL",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3d34d541ad5abd04",
+        "type": "function",
+        "z": "56d209f1c8e66fc8",
+        "name": "ALERTĂ de Precipitații > 65%",
+        "func": "var mailContent  = \"Precipitații crescute în data de: \\n\\n\";\nvar atLeastOneEvent = false ; // to check if AT LEAST one probability is above 65\n\nfor (let index = 0; index < 7; index++) {\n    atLeastOneEvent = true;\n    if ( msg.payload.daily.precipitation_probability_max[index] > 65 ) {\n        var reversedDate = msg.payload.daily.time[index];\n        reversedDate = reversedDate.split(\"-\").reverse().join(\"-\");\n            mailContent += \"\\t\" + reversedDate + \"\\t\\t\" + msg.payload.daily.precipitation_probability_max[index] + \"%\\n\"\n    }\n}\n\nif(atLeastOneEvent){\n    msg = {\n        payload : mailContent,\n        topic :  \"! ALERTĂ de Precipitații !\"\n    };\n    return msg;\n}\nelse \n    return;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 360,
+        "wires": [
+            [
+                "3725729181f373fb"
+            ]
+        ]
+    },
+    {
+        "id": "197a6f21f37a2363",
+        "type": "e-mail",
+        "z": "56d209f1c8e66fc8",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": true,
+        "tls": true,
+        "name": "",
+        "dname": "Alerta Email Precipitatii",
+        "x": 950,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "3725729181f373fb",
+        "type": "debug",
+        "z": "56d209f1c8e66fc8",
+        "name": "Debug Alerta Precipitatii",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "6fac3a039c13ea35",
+        "type": "function",
+        "z": "56d209f1c8e66fc8",
+        "name": "ALERTĂ de Temperaturi < 0",
+        "func": "var mailContent = \"Temperaturi negative înregistrate în data de: \\n\\n\";\nvar atLeastOneEvent = false ; // to check if AT LEAST one temp is below 0\n\nfor (let index = 0; index < 7; index++) {\n    if ( msg.payload.daily.temperature_2m_min[index] < 0 ) {\n        atLeastOneEvent = true;\n        var reversedDate = msg.payload.daily.time[index];\n        reversedDate = reversedDate.split(\"-\").reverse().join(\"-\");\n        mailContent += \"\\t\" + reversedDate + \"\\t\\t\" + msg.payload.daily.temperature_2m_min[index] + \"°C\\n\"\n    }\n}\n\nif(atLeastOneEvent){\n    msg = {\n        payload: mailContent,\n        topic: \"! ALERTĂ de Temperatură !\"\n    };\n    return msg;\n}\nelse \n    return;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 480,
+        "wires": [
+            [
+                "2573b893bd2434c1"
+            ]
+        ]
+    },
+    {
+        "id": "7a15fb1601fbec58",
+        "type": "e-mail",
+        "z": "56d209f1c8e66fc8",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": true,
+        "tls": true,
+        "name": "",
+        "dname": "Alerta Email Temperaturi",
+        "x": 950,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "2573b893bd2434c1",
+        "type": "debug",
+        "z": "56d209f1c8e66fc8",
+        "name": "Debug Alerta Temperaturi",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "6c85f25493e72a95",
+        "type": "twilio out",
+        "z": "56d209f1c8e66fc8",
+        "twilio": "c5c004252a120b3e",
+        "twilioType": "sms",
+        "url": "",
+        "number": "",
+        "name": "SMSalert Precipitatii",
+        "x": 940,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "842d8b10b5b8e761",
+        "type": "twilio out",
+        "z": "56d209f1c8e66fc8",
+        "twilio": "c5c004252a120b3e",
+        "twilioType": "sms",
+        "url": "",
+        "number": "",
+        "name": "SMSalert Temperaturi",
+        "x": 940,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "187742c38cf66421",
+        "type": "function",
+        "z": "56d209f1c8e66fc8",
+        "name": "Max_Wind",
+        "func": "msg.payload = [{\n    \"series\": [\"Viteza[km/h]\" ],\n    \"data\": [[msg.payload.daily.windspeed_10m_max[0], msg.payload.daily.windspeed_10m_max[1], msg.payload.daily.windspeed_10m_max[2], msg.payload.daily.windspeed_10m_max[3], msg.payload.daily.windspeed_10m_max[4], msg.payload.daily.windspeed_10m_max[5], msg.payload.daily.windspeed_10m_max[6]] ],\n    \"labels\": [ msg.payload.daily.time[0].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[1].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[2].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[3].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[4].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[5].split(\"-\").reverse().join(\"-\"), msg.payload.daily.time[6].split(\"-\").reverse().join(\"-\") ]\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 160,
+        "wires": [
+            [
+                "366cb4e3dfc82ab7"
+            ]
+        ]
+    },
+    {
+        "id": "366cb4e3dfc82ab7",
+        "type": "ui_chart",
+        "z": "56d209f1c8e66fc8",
+        "name": "Grafic Viteza Vant",
+        "group": "a7ca575d4c3e3337",
+        "order": 2,
+        "width": 16,
+        "height": 9,
+        "label": "Viteza maximă a vântului",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#9a9996",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 930,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6d145df74b29be16",
+        "type": "ui_spacer",
+        "z": "56d209f1c8e66fc8",
+        "name": "spacer",
+        "group": "35ecca7f77ad6298",
+        "order": 1,
+        "width": 16,
+        "height": 1
+    },
+    {
+        "id": "5ed0c7efa719a8c9",
+        "type": "ui_spacer",
+        "z": "56d209f1c8e66fc8",
+        "name": "spacer",
+        "group": "035001b51008c1b0",
+        "order": 1,
+        "width": 16,
+        "height": 1
+    },
+    {
+        "id": "9bd27fda85aa2aa8",
+        "type": "ui_spacer",
+        "z": "56d209f1c8e66fc8",
+        "name": "spacer",
+        "group": "a7ca575d4c3e3337",
+        "order": 1,
+        "width": 16,
+        "height": 1
+    },
+    {
+        "id": "035001b51008c1b0",
+        "type": "ui_group",
+        "name": "Temperaturi pentru urmatoarele 7 zile",
+        "tab": "ffcedc7c9b5c1c5d",
+        "order": 1,
+        "disp": true,
+        "width": "16",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "35ecca7f77ad6298",
+        "type": "ui_group",
+        "name": "Precipitații urmatoarele 7 zile",
+        "tab": "4295268ed2483a39",
+        "order": 1,
+        "disp": true,
+        "width": "16",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c5c004252a120b3e",
+        "type": "twilio-api",
+        "name": "SMSalert",
+        "sid": "AC3240c73a49a1066d5117450de1e05bed",
+        "from": "+18586838547"
+    },
+    {
+        "id": "a7ca575d4c3e3337",
+        "type": "ui_group",
+        "name": "Viteza Vântului",
+        "tab": "10eba258547a9bd7",
+        "order": 2,
+        "disp": true,
+        "width": 16,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ffcedc7c9b5c1c5d",
+        "type": "ui_tab",
+        "name": "Temperaturi",
+        "icon": "fa-thermometer-full ",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "4295268ed2483a39",
+        "type": "ui_tab",
+        "name": "Precipitații",
+        "icon": "wi-owm-10d",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "10eba258547a9bd7",
+        "type": "ui_tab",
+        "name": "Viteza Vântului",
+        "icon": "wi-darksky-wind",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]
